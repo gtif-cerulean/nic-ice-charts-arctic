@@ -1,0 +1,4 @@
+geojsons
+inputs*
+*.parquet
+full.json
