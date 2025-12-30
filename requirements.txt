@@ -6,3 +6,4 @@ pyarrow==15.0.2
 fiona==1.9.5
 beautifulsoup4==4.12.3
 gcsfs==2024.5.0
+pyogrio==0.12.1

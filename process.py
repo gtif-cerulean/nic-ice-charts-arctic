@@ -268,7 +268,12 @@ def main():
 
             # Persist GeoJSON for the asset href
             out_geojson = OUTPUT_DIR / f"{item_id}.geojson"
-            gdf_ll.to_file(out_geojson, driver="GeoJSON")
+            gdf_ll.to_file(
+                out_geojson,
+                driver="GeoJSON",
+                engine="pyogrio",
+                layer_options={"COORDINATE_PRECISION": 2},
+            )
 
             # Envelope box per item
             geom_box, bbox_list = env_box_bounds(gdf_ll)
