@@ -18,7 +18,7 @@ GROUPED_PARQUET_PATH = os.getenv("GROUPED_PARQUET_PATH", "daily_items.parquet")
 OUTPUT_DIR = Path(os.getenv("OUTPUT_DIR", "geojsons"))
 
 START_DATE = datetime.strptime(os.getenv("START_DATE", "2025-09-01"), "%Y-%m-%d").date()
-END_DATE = datetime.strptime(os.getenv("END_DATE", "2025-09-30"), "%Y-%m-%d").date()
+END_DATE = datetime.strptime(os.getenv("END_DATE", "2025-09-08"), "%Y-%m-%d").date()
 
 ASSET_BASE_URL_GEOJSON = os.getenv(
     "ASSET_BASE_URL_GEOJSON", "http://127.0.0.1:9091/geojsons"
@@ -268,11 +268,15 @@ def main():
 
             # Persist GeoJSON for the asset href
             out_geojson = OUTPUT_DIR / f"{item_id}.geojson"
+            # In your to_ll_repair function or right before saving, add:
+            gdf_ll["geometry"] = gdf_ll.geometry.simplify(
+                tolerance=0.05, preserve_topology=True
+            )
             gdf_ll.to_file(
                 out_geojson,
                 driver="GeoJSON",
                 engine="pyogrio",
-                layer_options={"COORDINATE_PRECISION": 2},
+                layer_options={"COORDINATE_PRECISION": 0},
             )
 
             # Envelope box per item
